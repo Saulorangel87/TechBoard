@@ -1,10 +1,27 @@
 .lista-suspensa {
-    border-radius: 8px;
-    background-color: transparent;
-    border: 1px solid #4A4949;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 120%;
-    color: #FFFFFF;
-    padding: 8px 16px;
+  border-radius: 8px;
+  background-color: #212121; /* Cor sólida para garantir visibilidade */
+  border: 1px solid #4a4949;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  color: #ffffff;
+  padding: 8px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.lista-suspensa:focus {
+  outline: none;
+  border-color: #ffffff; /* Destaque branco ao clicar/focar no campo */
+}
+
+.lista-suspensa option {
+  background-color: #212121; /* Define o fundo das opções explicitamente */
+  color: #ffffff;
+}
+
+.lista-suspensa::placeholder {
+  color: #4a4949;
 }
