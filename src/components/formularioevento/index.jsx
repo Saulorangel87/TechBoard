@@ -6,16 +6,17 @@ import { TituloFormulario } from "../tituloformulario";
 import { Botao } from "../campoentrada/Botao";
 import { ListaSuspensas } from "../ListaSuspensa";
 
-export function FormularioDeEventos({ temas }) {
+export function FormularioDeEventos({ temas, aoSumbmeter }) {
   function aoFormSubmit(formData) {
     const evento = {
-      capa: formData.get('capa'),
-      tema: temas.find(function(item){
-        return item.id == formData.get('tema');
+      capa: formData.get("capa"),
+      tema: temas.find(function (item) {
+        return item.id == formData.get("tema");
       }),
-      data: new Date(formData.get('dataevento')),
-      titulo: formData.get('nomeEvento'),
-    };
+      data: new Date(formData.get("dataevento")),
+      titulo: formData.get("nomeEvento"),
+    }
+    aoSumbmeter(evento);
   }
 
   return (
