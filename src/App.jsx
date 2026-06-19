@@ -1,8 +1,38 @@
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Banner } from "./components/Banner";
 import { CardEvento } from "./components/CardEvento";
 import { FormularioDeEventos } from "./components/formularioevento";
 import { Tema } from "./components/Tema";
+
+const CHAVE_STORAGE = "techboard:eventos";
+
+const eventosPadrao = [
+  {
+    capa: "https://raw.githubusercontent.com/viniciosneves/tecboard-assets/refs/heads/main/imagem_1.png",
+    tema: { id: 1, nome: "front-end" },
+    data: new Date(),
+    titulo: "Mulheres no Front",
+  },
+];
+
+function carregarEventosSalvos() {
+  const eventosSalvos = localStorage.getItem(CHAVE_STORAGE);
+
+  if (!eventosSalvos) {
+    return eventosPadrao;
+  }
+
+  try {
+    const eventos = JSON.parse(eventosSalvos);
+    // O JSON não guarda objetos Date, então reconvertemos a string de volta
+    return eventos.map(function (evento) {
+      return { ...evento, data: new Date(evento.data) };
+    });
+  } catch {
+    return eventosPadrao;
+  }
+}
 
 function App() {
   const temas = [
@@ -32,17 +62,14 @@ function App() {
     },
   ];
 
-  const eventos = [
-    {
-      capa: "https://raw.githubusercontent.com/viniciosneves/tecboard-assets/refs/heads/main/imagem_1.png",
-      tema: temas[0],
-      data: new Date(),
-      titulo: "Mulheres no Front",
-    },
-  ];
+  const [eventos, setEventos] = useState(carregarEventosSalvos);
+
+  useEffect(function () {
+    localStorage.setItem(CHAVE_STORAGE, JSON.stringify(eventos));
+  }, [eventos]);
 
   function adicionarEvento(evento) {
-    eventos.push(evento);
+    setEventos([...eventos, evento]);
   }
 
   return (
@@ -52,16 +79,23 @@ function App() {
       </header>
       <Banner />
       <FormularioDeEventos temas={temas} aoSumbmeter={adicionarEvento} />
-      {temas.map(function (item) {
-        return (
-          <section key={item.id}>
-            <Tema tema={item} />
-            {eventos.map(function (item, index) {
-              return <CardEvento evento={item} key={index} />;
-            })}
-          </section>
-        );
-      })}
+      <section className="container">
+        {temas.map(function (tema) {
+          return (
+            <section key={tema.id}>
+              <Tema tema={tema} />
+              <div className="eventos">
+                {eventos.filter(function (evento) {
+                  return evento.tema.id == tema.id
+                })
+                .map(function (evento, indice) {
+                  return <CardEvento evento={evento} key={indice} />
+                })}
+              </div>
+            </section>
+          )
+        })}
+      </section>
 
       {/* <section>
         <Tema tema={temas[1]} />

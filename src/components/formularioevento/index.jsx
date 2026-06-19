@@ -20,7 +20,7 @@ export function FormularioDeEventos({ temas, aoSumbmeter }) {
   }
 
   return (
-    <form className="form-evento" action="aoFormSubmit">
+    <form className="form-evento" action={aoFormSubmit}>
       <TituloFormulario>Preencha para criar um novo evento:</TituloFormulario>
       <div className="campos">
         <CampoDeFormulario>
