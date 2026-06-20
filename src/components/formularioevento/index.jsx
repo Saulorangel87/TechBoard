@@ -15,7 +15,7 @@ export function FormularioDeEventos({ temas, aoSumbmeter }) {
       }),
       data: new Date(formData.get("dataevento")),
       titulo: formData.get("nomeEvento"),
-    }
+    };
     aoSumbmeter(evento);
   }
 
